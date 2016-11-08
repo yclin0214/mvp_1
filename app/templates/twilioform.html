@@ -1,0 +1,13 @@
+  <h1>To send a text message through Twilio</h1>
+  <form action="" method="post" name="send">
+      {{ form.hidden_tag() }}
+      <p>
+          Target phone number:<br>
+          {{ form.phone_number }}<br>
+      </p>
+      <p>
+      	  Message to send: <br>
+      	  {{ form.message_body }} <br>
+      </p>
+      <p><input type="submit" value="Send"></p>
+  </form>
