@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 import time
-import config_twilio
+from config_twilio import *
 #basic parameters, subject to change
 
 APPLICANT = {
@@ -44,7 +44,7 @@ def to_receive():
         new_msg['body'] = request.values.get('Body')
         my_handler.msg_collection.insert_one(new_msg)
         print "***Debug: new message added!***"
-        
+
         if my_handler.applicant_collection.find({'phone_number':incoming_number}) == None:
         	print "**debug**"
         	new_applicant = copy.deepcopy(APPLICANT)
@@ -52,13 +52,13 @@ def to_receive():
        		new_applicant['location'] = request.values.get('FromCity')
         	my_handler.applicant_collection.insert_one(new_applicant)
         	print "***Debug: new applicant added!***"
-        
+
         for applicant in my_handler.applicant_collection.find():
         	print
         	print "***Debug***"
         	print applicant['phone_number']
         	print applicant['location']
-        	
+
         my_handler.close()
     return 'nothing'
 
@@ -71,9 +71,10 @@ def to_send():
         print request.values.get('From')
     	if form.validate_on_submit():
     	    #update the database
+            new_msg = copy.deepcopy(MSG)
     	    my_handler = db_handler()
-    	    new_msg['msg_id'] = int(form.phone_number) + int(time.time())
-    	    new_msg['to'] = form.phone_number
+    	    new_msg['msg_id'] = int(form.phone_number.data)+int(time.time())
+    	    new_msg['to'] = form.phone_number.data
     	    new_msg['from'] = 'our_server'
     	    new_msg['body'] = form.message_body.data
     	    my_handler.msg_collection.insert_one(new_msg)
