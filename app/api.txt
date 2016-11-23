@@ -1,0 +1,17 @@
+from admin interface to server to send message: 
+{
+  'number': string
+  'content': string //The message content
+  'type': string //sms or facebook messenger
+}
+
+from server to admin for contact board update:
+{
+  'contact_list': dictionary (number + message counts for each number)
+}
+
+from admin interface to server:
+{
+  'counts': string // "0" => need to list all messages, "ALL OTHER NUMBERs" current numbers of messages, to compare with the server. Current message number is smaller than the one on the server, the server will send the update
+  'number': string //phone number
+}
