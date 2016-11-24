@@ -120,12 +120,14 @@ def admin_entry():
     return render_template('admin.html')
 
 @app.route('/api/sms_post', methods=['GET','POST'])
+#request comes from client to server, then server forwards to twilio
 def send_sms ():
     if request.method == 'POST':
     	number = request.form['number']
     	content = request.form['content']
     	print request.form['number']
     	print request.form['content']
+    	#Todo: has not set up database connection here
     	num_msg_dict[number].append(content)
     	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
         message = client.messages.create(to=request.form['number'],from_=TWILIO_NUMBER, body=request.form['content'])
@@ -134,13 +136,11 @@ def send_sms ():
 
 @app.route('/api/contact_updates', methods=['GET'])
 def send_contact_update():
-    if (update_time > last_update_time):
-    	#There's update. Process the message counts of each number and send update. It's okay to have inefficient algorithm here for now.
-    	contact_dict = {'': int}
-    	for number in num_msg_dict:
-    	    contact_dict[number] = len(num_msg_dict[number])
-    	return jsonify({'contact_list':contact_dict})
-    return jsonify({'contact_list': None})
+#request comes from client to server, then server sends contact list updates
+    contact_dict = {'': int}
+    for number in num_msg_dict:
+    	contact_dict[number] = len(num_msg_dict[number])
+    return jsonify({'contact_list':contact_dict})
 
 @app.route('/api/message_updates', methods=['GET'])
 def list_messages():
