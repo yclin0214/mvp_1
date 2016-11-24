@@ -128,7 +128,11 @@ def send_sms ():
     	print request.form['number']
     	print request.form['content']
     	#Todo: has not set up database connection here
-    	num_msg_dict[number].append(content)
+    	if number in num_msg_dict:
+    	    num_msg_dict[number].append(content)
+    	else:
+    	    num_msg_dict[number] = [content]
+    	    
     	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
         message = client.messages.create(to=request.form['number'],from_=TWILIO_NUMBER, body=request.form['content'])
     	return jsonify({'status': 'send succeeds'})
@@ -138,9 +142,12 @@ def send_sms ():
 def send_contact_update():
 #request comes from client to server, then server sends contact list updates
     contact_dict = {'': int}
-    for number in num_msg_dict:
-    	contact_dict[number] = len(num_msg_dict[number])
-    return jsonify({'contact_list':contact_dict})
+    if len(num_msg_dict) > 1:
+        for number in num_msg_dict:
+    	    contact_dict[number] = len(num_msg_dict[number])
+        return jsonify({'contact_list':contact_dict})
+    else:
+        return jsonify({'contact_list': None})
 
 @app.route('/api/message_updates', methods=['GET'])
 def list_messages():
