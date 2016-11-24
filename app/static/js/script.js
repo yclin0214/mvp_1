@@ -94,7 +94,7 @@ function update_contact_dict(contact_dict, server_dict,current_number){
     	if (contact_dict[phone_number] != server_dict[phone_number]){
     	    if (contact_dict[phone_number] == null){
     	        //Todo: render html
-    	        alert("to_add");
+    	        alert("Debugging message: to_add");
     	        $('tr#bot').before(
     	          '<tr class="contact" id=' + phone_number + '>'+
     	          //Todo: to populate the name & location later
