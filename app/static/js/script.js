@@ -3,19 +3,25 @@ $(document).ready(function(){
   //Set up a 'current number variables'
   var current_number = '124';
   var contact_dict = {};
- 
+
   get_update_contact(contact_dict, current_number);
-  //On clicking an entry from the contact board
-  $('tbody').children().click(function(){
-  	//$('tbody').children().css("background-color", default);
+
+  $('tbody').on('click', 'tr', function(){
   	if (current_number != $(this).find('td.phone').text()){
-  	    alert("not same");
-  	    $('p').remove();
-  	    last_click = $('tbody').children(); //avoid pulling data from server again
   	    current_number = $(this).find('td.phone').text();
-  	    get_update_message(current_number, 0);
+  	    $('p').remove();
+  	    $('b.phone').html(current_number);
+  	    alert("Debugging Message: " + $(this).find('td.phone').text());
   	}
+  })
+  .on('mouseover', 'tr', function(){
+  	$(this).css('cursor', 'pointer');
+  	$(this).css('background-color', '#A9A9A9');
+  })
+  .on('mouseout', 'tr', function(){
+  	$(this).css('background-color', '');
   });
+  
   
   $('#send-button').click(function(){
     var toAdd = $('#inputbox').val();
