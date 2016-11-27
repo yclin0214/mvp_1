@@ -5,13 +5,15 @@ $(document).ready(function(){
   var contact_dict = {};
 
   get_update_contact(contact_dict, current_number);
-
+  
   $('tbody').on('click', 'tr', function(){
   	if (current_number != $(this).find('td.phone').text()){
   	    current_number = $(this).find('td.phone').text();
+  	    $(this).css("background-color", "");
   	    $('p').remove();
   	    $('b.phone').html(current_number);
-  	    alert("Debugging Message: " + $(this).find('td.phone').text());
+  	    //alert("Debugging Message: " + $(this).find('td.phone').text());
+  	    
   	}
   })
   .on('mouseover', 'tr', function(){
@@ -101,11 +103,11 @@ function update_contact_dict(contact_dict, server_dict,current_number){
     }
     for (phone_number in server_dict){
     	if (contact_dict[phone_number] != server_dict[phone_number]){
-    	    if (contact_dict[phone_number] == null){
+    	    if (!phone_number in contact_dict){
     	        //Todo: render html
     	        alert("Debugging message: to_add");
-    	        $('tr#bot').before(
-    	          '<tr class="contact" id=' + phone_number + '>'+
+    	        $('tbody').prepend(
+    	          '<tr class="contact" style="background-color: #FAEBD7" id=' + phone_number + '>'+
     	          //Todo: to populate the name & location later
       	          '<td class="name">' + 'unknown(name)' + '</td>' +
       	          '<td class="count">' + server_dict[phone_number] + '</td>' +
@@ -115,8 +117,9 @@ function update_contact_dict(contact_dict, server_dict,current_number){
     	        );
     	    }
     	    else{
-    	        //Todo: just highlight the background
-    	       // $('tr#'+ phone_number).css(background-color: #bcd6ff);
+    	       //set the background color for notification purpose, and move the element to the beginning position in the table. background-color will be reset once clicked by admin
+    	       $('tr#' + phone_number).css("background-color", "#FAEBD7");
+    	       $('tbody').prepend($('tr#'));
     	    }
     	}
         contact_dict[phone_number] = server_dict[phone_number];
