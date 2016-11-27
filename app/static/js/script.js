@@ -46,7 +46,7 @@ $(document).ready(function(){
 })
 
 /* Comment:
-1. Overall structure: get_update_contact() -> get_update_dict() -> get_update_messages.
+1. Overall structure: get_update_contact() -> update_contact_dict() -> get_update_messages.
 2. Rendering happens in get_update_dict() for the contact board, and in get_update_messages for the message board. Heartbeat only happens in get_update_contact(). 
 3. On clicking onto another contact entry, call get_update_messages with counts = 0*/
 
@@ -88,12 +88,15 @@ function get_update_contact(contact_dict, current_number){
 //Just update the number of messages associated with every number in contact dict
 function update_contact_dict(contact_dict, server_dict,current_number){
     //Check current number
-    if (contact_dict[current_number] == undefined){
+    if (current_number in contact_dict){
     	contact_dict[current_number] = server_dict[current_number];
     	get_update_message(current_number, contact_dict[current_number]);
+    	if (parseInt(contact_dict[current_number]) < parseInt(server_dict[current_number])){
+    	    get_update_message(current_number, contact_dict[current_number]);
+    	}
     }
-    else if (contact_dict[current_number] < server_dict[current_number]){
-        //dispatch get_update_messages to update the message board for the current number under admin's selection
+    else {
+        contact_dict[current_number] = "0";
         get_update_message(current_number, contact_dict[current_number]);
     }
     for (phone_number in server_dict){

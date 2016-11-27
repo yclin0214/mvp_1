@@ -151,7 +151,7 @@ def send_contact_update():
 
 @app.route('/api/message_updates', methods=['GET'])
 def list_messages():
-    count = request.form['count']
+    count = int(request.form['count'])
     number = request.form['number']
     if number is not None:
         if len(num_msg_dict[number]) > count:
