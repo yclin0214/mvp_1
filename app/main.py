@@ -43,7 +43,7 @@ last_update_time = 0;
 update_time = 0;
 
 @app.route('/', methods=['GET', 'POST'])
-return "Hello World"
+    return "Hello World"
 
 @app.route('/receive', methods=['GET', 'POST'])
 def to_receive():
