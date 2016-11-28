@@ -43,7 +43,8 @@ last_update_time = 0;
 update_time = 0;
 
 @app.route('/', methods=['GET', 'POST'])
-    return "Hello World"
+def fool():
+    return "test heroku"
 
 @app.route('/receive', methods=['GET', 'POST'])
 def to_receive():
