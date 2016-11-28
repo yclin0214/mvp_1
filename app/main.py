@@ -43,6 +43,9 @@ last_update_time = 0;
 update_time = 0;
 
 @app.route('/', methods=['GET', 'POST'])
+return "Hello World"
+
+@app.route('/receive', methods=['GET', 'POST'])
 def to_receive():
     #instantiate a db handler
     msg_id = request.values.get('MessageSid')
@@ -57,7 +60,7 @@ def to_receive():
         new_msg['body'] = request.values.get('Body')
         my_handler.msg_collection.insert_one(new_msg)
         print "***Debug: new message added!***"
-        
+
         if my_handler.applicant_collection.find({'phone_number':incoming_number}) == None:
         	print "**debug**"
         	new_applicant = copy.deepcopy(APPLICANT)
@@ -72,12 +75,14 @@ def to_receive():
         	print applicant['phone_number']
         	print applicant['location']
         my_handler.close()
-        
+
     #add to num_msg_dict and send to admin. Todo: bad practice, just to test
     num_msg_dict[incoming_number].append(request.values.get('Body'))
     update_time = time.time()
-    return 'nothing'
-
+    return "nothing"
+@app.route('/mongo')
+def foo_():
+    return app.config['SECRET_KEY']
 @app.route('/send', methods=['GET', 'POST'])
 #Todo: need to debug this function
 def to_send():
@@ -132,7 +137,7 @@ def send_sms ():
     	    num_msg_dict[number].append(content)
     	else:
     	    num_msg_dict[number] = [content]
-    	    
+
     	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
         message = client.messages.create(to=request.form['number'],from_=TWILIO_NUMBER, body=request.form['content'])
     	return jsonify({'status': 'send succeeds'})
