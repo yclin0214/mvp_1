@@ -2,6 +2,7 @@
 import copy
 import time
 #import flask related files and libraries
+from app import app
 from flask import Flask, render_template, flash, request, jsonify
 from wtforms import Form
 #import twilio related file
@@ -11,10 +12,6 @@ import twilio.twiml
 from config_twilio import *
 #import database related file
 from db_handler import db_handler
-
-app = Flask(__name__)
-app.config.from_object('config')
-
 
 
 #basic parameters, subject to change
@@ -81,9 +78,11 @@ def to_receive():
     num_msg_dict[incoming_number].append(request.values.get('Body'))
     update_time = time.time()
     return "nothing"
+    
 @app.route('/mongo')
 def foo_():
     return app.config['SECRET_KEY']
+    
 @app.route('/send', methods=['GET', 'POST'])
 #Todo: need to debug this function
 def to_send():
@@ -163,6 +162,3 @@ def list_messages():
         if len(num_msg_dict[number]) > count:
             return jsonify({'new_message_list':num_msg_dict[number][count:]})
     return jsonify({'new_message_list': None})
-
-if __name__=="__main__":
-    app.run(debug=True)
