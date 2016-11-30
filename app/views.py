@@ -166,6 +166,6 @@ def list_messages():
 @app.route('/messenger', methods=['GET'])
 def messenger():
     if (request.values.get('hub.verify_token') == 'abcd'):
-        return (request.values.get['hub.challenge'])
+        return request.values.get('hub.challenge')
     else:
         return 'Error, wrong validation token'
