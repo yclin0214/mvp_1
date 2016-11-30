@@ -78,11 +78,11 @@ def to_receive():
     num_msg_dict[incoming_number].append(request.values.get('Body'))
     update_time = time.time()
     return "nothing"
-    
+
 @app.route('/mongo')
 def foo_():
     return app.config['SECRET_KEY']
-    
+
 @app.route('/send', methods=['GET', 'POST'])
 #Todo: need to debug this function
 def to_send():
@@ -162,3 +162,10 @@ def list_messages():
         if len(num_msg_dict[number]) > count:
             return jsonify({'new_message_list':num_msg_dict[number][count:]})
     return jsonify({'new_message_list': None})
+
+@app.route('/messenger')
+def messenger():
+    if (request.values.get('hub.verify_token') == 'abcd'):
+        return (request.values.get['hub.challenge'])
+    else:
+        return 'Error, wrong validation token'
