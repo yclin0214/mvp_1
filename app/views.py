@@ -163,7 +163,7 @@ def list_messages():
             return jsonify({'new_message_list':num_msg_dict[number][count:]})
     return jsonify({'new_message_list': None})
 
-@app.route('/messenger', methods=['GET'])
+@app.route('/messenger', methods=['GET','POST'])
 def messenger():
     if (request.values.get('hub.verify_token') == 'abcd'):
         return request.values.get('hub.challenge')
