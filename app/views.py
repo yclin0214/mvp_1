@@ -174,21 +174,22 @@ def messenger():
             return 'Error, wrong validation token'
     if request.method == 'POST':
         data = request.json
-        sender = data['entry'][0]['messaging'][0]['sender']['id']
-        message = data['entry'][0]['messaging'][0]['message']['text']
-        print sender
-        print message
-
-	text = "this is a testing"
-        ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
-        r = requests.post("https://graph.facebook.com/v2.6/me/messages",
-        params={"access_token": ACCESS_TOKEN},
-        data=json.dumps({
-        	"recipient": {"id": sender},
-        	"message": {"text": text.decode('unicode_escape')}
-        }),
-    	headers={'Content-type': 'application/json'})
-        print r.content
-
-    return 'ok'
+        if data['object'] == 'page':
+        	sender = data['entry'][0]['messaging'][0]['sender']['id']
+        	message = data['entry'][0]['messaging'][0]['message']['text']
+        	print sender
+        	print message
+		text = "this is a testing"
+		ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
+        	r = requests.post("https://graph.facebook.com/v2.6/me/messages",
+        	params={"access_token": ACCESS_TOKEN},
+        	data=json.dumps({
+        		"recipient": {"id": sender},
+        		"message": {"text": text.decode('unicode_escape')}
+        	}),
+    		headers={'Content-type': 'application/json'})
+        	print r.content
+        	return 'ok'
+	else:
+		return 'ok'
 
