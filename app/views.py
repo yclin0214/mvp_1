@@ -178,6 +178,7 @@ def messenger():
         	sender = data['entry'][0]['messaging'][0]['sender']['id']
         	if 'message' in data['entry'][0]['messaging'][0]:
         		messaging = data['entry'][0]['messaging'][0]['message']['text']
+        		print messaging
         	print sender
 		text = "this is a testing"
 		ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
