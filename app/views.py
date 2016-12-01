@@ -165,9 +165,14 @@ def list_messages():
 
 @app.route('/messenger', methods=['GET','POST'])
 def messenger():
-    print "hi"
-    print request.data
-    if (request.values.get('hub.verify_token') == 'abcd'):
-        return request.values.get('hub.challenge')
-    else:
-        return 'Error, wrong validation token'
+    if request.methods == 'GET':
+        if (request.values.get('hub.verify_token') == 'abcd'):
+            return request.values.get('hub.challenge')
+        else:
+            return 'Error, wrong validation token'
+    if request.methods == 'POST':
+        if request.data.get('object') == 'page':
+            entry = request.data.get('entry')
+            print entry
+
+    return 'none'
