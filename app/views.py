@@ -166,12 +166,12 @@ def list_messages():
 @app.route('/messenger', methods=['GET','POST'])
 def messenger():
     print "hi"
-    print "object value: "+ request.values.get('object')
-    print "form: "+ request.form
-    print "args: "+request.args
-    print "stream: "+request.stream
-    print "data: "+request.data
-    print "header: "+request.header
+    print request.values.get('object')
+    print request.form
+    print request.args
+    print request.stream
+    print request.data
+    print request.header
     if (request.values.get('hub.verify_token') == 'abcd'):
         return request.values.get('hub.challenge')
     else:
