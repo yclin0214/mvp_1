@@ -172,6 +172,7 @@ def messenger():
             return 'Error, wrong validation token'
     if request.method == 'POST':
         data_packet = request.data
+        print request.json
         print request.args.get('entry')
         print request.form
         print type(data_packet)
