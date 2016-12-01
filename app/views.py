@@ -176,9 +176,13 @@ def messenger():
         data = request.json
         if data['object'] == 'page':
         	sender = data['entry'][0]['messaging'][0]['sender']['id']
-        	message = data['entry'][0]['messaging'][0]['message']['text']
-        	print sender
-        	print message
+        	messaging_events = data['entry'][0]['messaging']
+        	for event in messaging_events:
+        		if 'message' in event and 'text' in event['message']:
+        			yield event['sender']['id'], event['message']['text'].encode('unicode_escape')
+        		else:
+        			yield event['sender']['id'], 'no info'
+        	
 		text = "this is a testing"
 		ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
         	r = requests.post("https://graph.facebook.com/v2.6/me/messages",
