@@ -173,7 +173,6 @@ def messenger():
         else:
             return 'Error, wrong validation token'
     if request.method == 'POST':
-    	resp = Response(status=200, mimetype='application/json')
         data = request.json
         if data['object'] == 'page':
         	sender = data['entry'][0]['messaging'][0]['sender']['id']
@@ -187,7 +186,8 @@ def messenger():
         	data=json.dumps({
         		"recipient": {"id": sender},
         		"message": {"text": text.decode('unicode_escape')}
-        	}))
+        	}),
+    		headers={'Content-type': 'application/json'})
         	print r.content
-    return resp	
+    return r	
 
