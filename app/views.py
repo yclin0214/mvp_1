@@ -173,5 +173,6 @@ def messenger():
     if request.method == 'POST':
         data_packet = request.data
         print request.args.get('entry')
+        print request.form
         print type(data_packet)
     return 'none'
