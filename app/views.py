@@ -2,6 +2,7 @@
 import copy
 import time
 import requests
+import json
 #import flask related files and libraries
 from app import app
 from flask import Flask, render_template, flash, request, jsonify
@@ -177,13 +178,16 @@ def messenger():
         message = data['entry'][0]['messaging'][0]['message']['text']
         print sender
         print message
-        respond_data = {
-        	"recipient": {"id": sender},
-        	"message": {"text": "this is a test"}
-        }
+
+	text = "this is a testing"
         ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
-        link = "https://graph.facebook.com/v2.6/me/messages?access_token="+ACCESS_TOKEN
-        resp = requests.post(link, respond_data)
+        r = requests.post("https://graph.facebook.com/v2.6/me/messages",
+        params={"access_token": ACCESS_TOKEN},
+        data=json.dumps({
+        	"recipient": {"id": sender},
+        	"message": {"text": text.decode('unicode_escape')}
+        }),
+    	headers={'Content-type': 'application/json'})
         print resp.content
 
     return 'ok'
