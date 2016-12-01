@@ -188,7 +188,7 @@ def messenger():
         	"message": {"text": text.decode('unicode_escape')}
         }),
     	headers={'Content-type': 'application/json'})
-        print resp.content
+        print r.content
 
     return 'ok'
 
