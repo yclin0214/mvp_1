@@ -176,4 +176,14 @@ def messenger():
         message = data['entry'][0]['messaging'][0]['message']['text']
         print sender
         print message
-    return 'none'
+        respond_data = {
+        	"recipient": {"id": sender},
+        	"message": {"text": "this is a test"}
+        }
+        ACCESS_TOKEN = "EAARRbAtTUC8BAPPz4kGLZBjy8DKFP6nKZChqSkB5JReLC52ZCyWkLqYPKk84EgEsD2NnNOhE1iTCvqzz0AlFUa2qP30Pvlzl38j7oqPyPFk0meZCo4aMgb5fVZAOG3uaAepZBZAe9RsknvwbIp0uFp4QPYN4d0OMLhEEccZCcdz9cwZDZD"
+        link = "https://graph.facebook.com/v2.6/me/messages?access_token="+ACCESS_TOKEN
+        resp = requests.post(link, respond_data)
+        print resp.content
+
+    return 'ok'
+
