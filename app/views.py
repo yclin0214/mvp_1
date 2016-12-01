@@ -171,8 +171,8 @@ def messenger():
         else:
             return 'Error, wrong validation token'
     if request.method == 'POST':
-        if request.data['object'] == 'page':
-            data_packet = request.data
+        data_packet = request.data
+        if data_packet['object'] == 'page':
             entry_dict = data_packet['entry'][0]['messaging'][0]
             message_body = entry_dict['message']['text']
             sender_id = entry_dict['sender']['id']
