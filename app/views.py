@@ -190,5 +190,4 @@ def messenger():
         	}),
     		headers={'Content-type': 'application/json'})
         	print r.content
-    return r	
-
+    return r
